@@ -7,6 +7,7 @@ const userService = new UserService()
 const signup = async (req, res) => {
     try {
         const { username, password, email } = req.body
+        const imageUrl = req.file.path
         const existUser = await userService.getUser({
             $or: [
                 { username: username },
@@ -22,7 +23,8 @@ const signup = async (req, res) => {
                 error: ''
             })
         }
-        const newUser = await userService.signup({ username, password, email })
+
+        const newUser = await userService.signup({ username, password, email, imageUrl })
         return res.status(200).json({
             success: true,
             data: newUser,
